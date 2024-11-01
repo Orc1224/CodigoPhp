@@ -47,7 +47,8 @@ if($pstFileExtension == 'csv'){
                     'Quantity_Fin' => $insertValues[12] ?? NULL,
                 ];
                 $resultUpdate = insertToDB($table, $array);
-                $max = ($resultUpdate == 1) ? true : false ;
+                $max = ($resultUpdate == 1) ? true : false;
+                $flag = ($max != false) ? true : false;
             } elseif ($insertValues[0] == 'ORG' && $max == true) {
                 $table = 'prj_promotions_organization';
                 $array = [
@@ -124,11 +125,16 @@ if($pstFileExtension == 'csv'){
                     'Code_Type' => $insertValues[1],
                 ];
                 $resultUpdate = insertToDB($table, $array);
-                if($resultUpdate == 1){
-                    $lstCodeLoad++;
-                    $max = true;
-                }
+                // if($resultUpdate == 1){
+                //     $lstCodeLoad++;
+                //     $max = true;
+                // }
             }
+            writeCustomLog("Flag: ".$flag);
+            writeCustomLog("Code: ".$lstCodeLoad);
+            $lstCodeLoad = ($flag != false) ? $lstCodeLoad++ : $lstCodeLoad;
+            writeCustomLog("Flag Incremento: ".$flag);
+            writeCustomLog("Code Incremento: ".$lstCodeLoad);
             if($max == false){
                 $mjs .= "Ocurrio un error al guardar la informacion";
                 writeCustomLog("Table: ".$table);
